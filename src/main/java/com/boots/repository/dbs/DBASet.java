@@ -1,12 +1,17 @@
 package com.boots.repository.dbs;
 
+import com.boots.repository.CONST;
+import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 abstract public class DBASet {
+    
+    // if VERSION previous - remake DB
     private static final String VERSION = "version";
 
     protected File DATA_FILE;
@@ -50,7 +55,7 @@ abstract public class DBASet {
     }
 
     public static int getVersion(DB database) {
-        return database.getAtomicInteger(VERSION).intValue();
+        return database.atomicInteger(VERSION).createOrOpen().get();
     }
 
     public File getFile() {
@@ -58,7 +63,7 @@ abstract public class DBASet {
     }
 
     public static void setVersion(DB database, int version) {
-        database.getAtomicInteger(VERSION).set(version);
+        database.atomicInteger(VERSION).createOrOpen().set(version);
     }
 
     public void addTable(DBTab table) {
@@ -94,8 +99,9 @@ abstract public class DBASet {
     }
 
     public void clearCache() {
-        logger.debug("CLEAR CACHE");
-        this.database.getEngine().clearCache();
+        log.debug("CLEAR CACHE");
+        // TODO clear Cache
+        //this.database.getEngine().clearCache();
     }
 
     /**
@@ -109,9 +115,9 @@ abstract public class DBASet {
         try {
 
         } catch (java.lang.OutOfMemoryError e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             this.outUses();
-            Controller.getInstance().stopAndExit(1013);
+            CONST.getInstance().stopAndExit(1013);
         } finally {
             this.outUses();
         }

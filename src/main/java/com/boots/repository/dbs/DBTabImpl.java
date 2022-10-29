@@ -199,7 +199,7 @@ public abstract class DBTabImpl<T, U> extends Observable implements DBTab<T, U> 
         if (this.observableData != null) {
             if (this.observableData.containsKey(NOTIFY_ADD)) {
                 this.setChanged();
-                this.notifyObservers(new ObserverMessage(this.observableData.get(NOTIFY_ADD), value));
+                this.notifyObservers(new org.erachain.utils.ObserverMessage(this.observableData.get(NOTIFY_ADD), value));
             }
         }
 

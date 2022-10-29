@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public interface DBTab<T, U> extends IMap<T, U>, ForkedMap {
 
+    // for Notify Observers
     int NOTIFY_RESET = 1;
     int NOTIFY_ADD = 2;
     int NOTIFY_REMOVE = 3;
@@ -29,3 +30,5 @@ public interface DBTab<T, U> extends IMap<T, U>, ForkedMap {
     boolean checkObserverMessageType(int messageType, int thisMessageType);
 
     void notifyObserverList();
+
+}
