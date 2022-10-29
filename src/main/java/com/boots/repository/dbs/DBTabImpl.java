@@ -5,8 +5,10 @@ import com.boots.repository.IDB;
 import lombok.Getter;
 import org.mapdb.DB;
 import org.mapdb.Serializer;
+import org.parboiled.common.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.boots.utils.ObserverMessage;
 
 import java.util.*;
 
@@ -235,7 +237,7 @@ public abstract class DBTabImpl<T, U> extends Observable implements DBTab<T, U> 
                             observItem.equals(ObserverMessage.WALLET_REMOVE_ORDER_TYPE)
                                     || observItem.equals(ObserverMessage.REMOVE_AT_TX)
                     ) {
-                        this.notifyObservers(new ObserverMessage(observItem, new Pair<T, U>(key, value)));
+                        this.notifyObservers(new ObserverMessage(observItem, new Tuple2<T, U>(key, value)));
                     } else {
                         this.notifyObservers(new ObserverMessage(observItem, value));
                     }

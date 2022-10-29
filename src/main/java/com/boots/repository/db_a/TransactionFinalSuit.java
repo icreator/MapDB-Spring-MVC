@@ -1,6 +1,6 @@
-package org.erachain.datachain;
+package com.boots.repository.db_a;
 
-import org.erachain.dbs.IteratorCloseable;
+import com.boots.repository.dbs.IteratorCloseable;
 
 /**
  * Iterators for this TAB

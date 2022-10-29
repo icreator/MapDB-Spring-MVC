@@ -111,12 +111,7 @@ public class DCSet_A extends DBASet implements Closeable  {
 
     private boolean inMemory = false;
 
-    private BlockChain bchain;
-
-    private ItemPersonMap itemPersonMap;
-
     private TransactionFinalMapImpl transactionFinalMap;
-    private TransactionFinalCalculatedMap transactionFinalCalculatedMap;
     private TransactionFinalMapSigns transactionFinalMapSigns;
     private TransactionMapImpl transactionTab;
 

@@ -1,4 +1,4 @@
-package org.erachain.utils;
+package com.boots.utils;
 
 public class ObserverMessage {
 
