@@ -937,8 +937,6 @@ public class DCSet_A extends DBASet implements Closeable  {
 
         this.database.rollback();
 
-        getBlockMap().resetLastBlockSignature();
-
         for (DBTab tab : tables) {
             tab.afterRollback();
         }
@@ -980,29 +978,11 @@ public class DCSet_A extends DBASet implements Closeable  {
 
         this.addUses();
 
-        boolean needRepopulateUTX = hardFlush
-                || System.currentTimeMillis() - pointClear - 1000 >
-                BlockChain.GENERATING_MIN_BLOCK_TIME_MS(BlockChain.VERS_30SEC + 1) << 3;
-        // try to repopulate UTX table
-        if (needRepopulateUTX && Controller.getInstance().transactionsPool != null) {
-            Controller.getInstance().transactionsPool.needClear(doOrphan);
+        boolean needRepopulateUTX = true;
 
-            pointClear = System.currentTimeMillis();
+        pointClear = System.currentTimeMillis();
 
-        }
-
-        if (false && // базы данных используют память котрую приложение не видит
-                // и не может понять что там на самом деле творится - вне зависимости от вида КЭША у MapDB
-                Runtime.getRuntime().maxMemory() == Runtime.getRuntime().totalMemory()
-                && Runtime.getRuntime().totalMemory() / Runtime.getRuntime().freeMemory() > 10) {
-            hardFlush = true;
-            log.debug("%%%%%%%%%%%%%%%");
-            log.debug("%%%%%%%%%%%%%%%   totalMemory: " + (Runtime.getRuntime().totalMemory() >> 20)
-                    + "MB   %%%%% freeMemory: " + (Runtime.getRuntime().freeMemory() >> 20) + "MB");
-            log.debug("%%%%%%%%%%%%%%% = hardFlush");
-        }
-
-        this.commitSize += size;
+        this.commitSize += 10;
 
         /**
          * if by Commit Size: 91 MB - chain.dat.t = 2 GB !!
