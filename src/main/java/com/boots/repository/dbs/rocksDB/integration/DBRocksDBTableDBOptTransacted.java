@@ -1,12 +1,6 @@
-package org.erachain.dbs.rocksDB.integration;
+package com.boots.repository.dbs.rocksDB.integration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.database.DBASet;
-import org.erachain.dbs.rocksDB.common.RocksDbDataSourceOptTransactedDB;
-import org.erachain.dbs.rocksDB.common.RocksDbSettings;
-import org.erachain.dbs.rocksDB.indexes.IndexDB;
-import org.erachain.dbs.rocksDB.transformation.Byteable;
-import org.erachain.dbs.rocksDB.transformation.ByteableTrivial;
 import org.rocksdb.ReadOptions;
 import org.rocksdb.TransactionDBOptions;
 import org.rocksdb.WriteOptions;

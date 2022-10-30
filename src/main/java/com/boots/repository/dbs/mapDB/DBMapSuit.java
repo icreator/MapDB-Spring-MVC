@@ -1,17 +1,14 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
-import org.erachain.database.DBASet;
-import org.erachain.datachain.IndexIterator;
-import org.erachain.dbs.DBSuitImpl;
-import org.erachain.dbs.DBTab;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.IteratorCloseableImpl;
+import com.boots.repository.dbs.*;
+import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
-import org.mapdb.Fun;
-import org.mapdb.Fun.Tuple2;
+import org.parboiled.common.Tuple2;
 import org.slf4j.Logger;
 
 import java.util.*;
+
+@Slf4j
 
 /**
  * Оболочка для Карты от конкретной СУБД чтобы эту оболочку вставлять в Таблицу, которая запускает события для ГУИ.
@@ -21,7 +18,6 @@ import java.util.*;
  */
 public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
 
-    protected Logger logger;
     public int DESCENDING_SHIFT_INDEX = 10000;
 
     protected DBASet databaseSet;
@@ -32,7 +28,7 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
     protected T HI;
     protected T LO;
 
-    protected Map<Integer, NavigableSet<Fun.Tuple2<?, T>>> indexes = new HashMap<>();
+    protected Map<Integer, NavigableSet<Tuple2<?, T>>> indexes = new HashMap<>();
 
     /**
      * Если включено, то незабываем еще аключить при создании карты - .counterEnable()
@@ -49,29 +45,27 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
      *                 У каждой таблицы внутри может своя база данных открытьваться.
      *                 А команды базы данных типа close commit должны из таблицы передаваться в свою.
      *                 Если в общей базе таблица, то не нужно обработка так как она делается в наборе наверху
-     * @param logger
      * @param sizeEnable
      * @param cover
      */
-    public DBMapSuit(DBASet databaseSet, DB database, Logger logger, boolean sizeEnable, DBTab cover) {
+    public DBMapSuit(DBASet databaseSet, DB database, boolean sizeEnable, DBTab cover) {
 
         this.databaseSet = databaseSet;
         this.database = database;
-        this.logger = logger;
         this.cover = cover;
         this.sizeEnable = sizeEnable;
 
         openMap();
         createIndexes();
-        logger.info("USED");
+        log.info("USED");
     }
 
     public DBMapSuit(DBASet databaseSet, DB database, Logger logger, boolean sizeEnable) {
-        this(databaseSet, database, logger, sizeEnable, null);
+        this(databaseSet, database, sizeEnable, null);
     }
 
     public DBMapSuit(DBASet databaseSet, DB database, Logger logger) {
-        this(databaseSet, database, logger, false, null);
+        this(databaseSet, database, false, null);
     }
 
     @Override
@@ -107,7 +101,7 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
             NavigableSet<Tuple2<?, T>> indexSet = getIndex(index, descending);
             if (indexSet != null) {
 
-                IndexIterator<T> u = new org.erachain.datachain.IndexIterator<>(this.indexes.get(index));
+                IndexIterator<T> u = new IndexIterator<>(this.indexes.get(index));
                 return u;
 
             } else {
@@ -229,7 +223,7 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
                 return this.getDefaultValue(key);
 
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
                 return this.getDefaultValue(key);
             }
         } finally {
@@ -391,7 +385,7 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
     @Override
     public void clear() {
 
-        if (this.database.getEngine().isClosed())
+        if (database.isClosed())
             return;
 
         this.addUses();
@@ -425,7 +419,7 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
 
     @Override
     public boolean isClosed() {
-        return database.getEngine().isClosed();
+        return database.isClosed();
     }
 
     @Override

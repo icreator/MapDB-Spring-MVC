@@ -1,23 +1,22 @@
-package org.erachain.dbs.rocksDB.integration;
+package com.boots.repository.dbs.rocksDB.integration;
 
+import com.boots.repository.CONST;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.IteratorCloseable;
+import com.boots.repository.dbs.rocksDB.IteratorCloseableImpl;
+import com.boots.repository.dbs.rocksDB.common.RocksDbDataSource;
+import com.boots.repository.dbs.rocksDB.common.RocksDbSettings;
+import com.boots.repository.dbs.rocksDB.exceptions.UnsupportedRocksDBOperationException;
+import com.boots.repository.dbs.rocksDB.exceptions.UnsupportedTypeIndexException;
+import com.boots.repository.dbs.rocksDB.indexes.ArrayIndexDB;
+import com.boots.repository.dbs.rocksDB.indexes.IndexDB;
+import com.boots.repository.dbs.rocksDB.indexes.ListIndexDB;
+import com.boots.repository.dbs.rocksDB.indexes.SimpleIndexDB;
+import com.boots.repository.dbs.rocksDB.transformation.Byteable;
+import com.boots.repository.dbs.rocksDB.transformation.ByteableInteger;
+import com.boots.repository.dbs.rocksDB.transformation.ByteableTrivial;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.Arrays;
-import org.erachain.database.DBASet;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.rocksDB.IteratorCloseableImpl;
-import org.erachain.dbs.rocksDB.common.RocksDbDataSource;
-import org.erachain.dbs.rocksDB.common.RocksDbSettings;
-import org.erachain.dbs.rocksDB.exceptions.UnsupportedRocksDBOperationException;
-import org.erachain.dbs.rocksDB.exceptions.UnsupportedTypeIndexException;
-import org.erachain.dbs.rocksDB.indexes.ArrayIndexDB;
-import org.erachain.dbs.rocksDB.indexes.IndexDB;
-import org.erachain.dbs.rocksDB.indexes.ListIndexDB;
-import org.erachain.dbs.rocksDB.indexes.SimpleIndexDB;
-import org.erachain.dbs.rocksDB.transformation.Byteable;
-import org.erachain.dbs.rocksDB.transformation.ByteableInteger;
-import org.erachain.dbs.rocksDB.transformation.ByteableTrivial;
-import org.erachain.settings.Settings;
-import org.erachain.utils.SimpleFileVisitorForRecursiveFolderDeletion;
 import org.rocksdb.ColumnFamilyHandle;
 import org.rocksdb.ReadOptions;
 import org.rocksdb.WriteOptions;
@@ -29,8 +28,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import static org.erachain.dbs.rocksDB.common.RocksDbDataSource.SIZE_BYTE_KEY;
-import static org.erachain.dbs.rocksDB.utils.ConstantsRocksDB.ROCKS_DB_FOLDER;
 import static org.rocksdb.RocksDB.loadLibrary;
 
 /**
@@ -73,13 +70,13 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
 
     static {
         try {
-            logger.info("load libraries");
+            log.info("load libraries");
             loadLibrary(new ArrayList<String>() {{
                 add(".");
             }});
-            logger.info("loaded success");
+            log.info("loaded success");
         } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
+            log.error(throwable.getMessage(), throwable);
         }
     }
 
@@ -102,7 +99,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
         this.writeOptions = writeOptions;
         this.root = (dbaSet == null // in TESTs
                 || dbaSet.getFile() == null ? // in Memory or in TESTs
-                Settings.getInstance().getDataChainPath()
+                CONST.getInstance().getDataChainPath()
                 : dbaSet.getFile().getParent()) + ROCKS_DB_FOLDER;
         this.indexes = indexes;
     }
@@ -192,7 +189,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
 
         for (IndexDB indexDB : indexes) {
             if (indexDB instanceof SimpleIndexDB) {
-                if (logON) logger.info("SimpleIndex");
+                if (logON) log.info("SimpleIndex");
                 ////// тут получаем ответы от двух функций Индекса - формирования ключа и преобразования его в байты
                 //// причем у Глеба тут опять передается ключ первичный - даже для серилиазации результат из вервого вызова
                 SimpleIndexDB simpleIndexDB = (SimpleIndexDB) indexDB;
@@ -201,44 +198,44 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
                 if (bytes == null) {
                     continue;
                 }
-                if (logON) logger.info("SimpleIndex.bytes.length = " + bytes.length);
+                if (logON) log.info("SimpleIndex.bytes.length = " + bytes.length);
                 byte[] concatenateBiFunctionKey = Arrays.concatenate(bytes, keyBytes);
                 dbSource.put(indexDB.getColumnFamilyHandle(), concatenateBiFunctionKey, keyBytes);
             } else if (indexDB instanceof ArrayIndexDB) {
-                if (logON) logger.info("ArrayIndex");
+                if (logON) log.info("ArrayIndex");
                 ArrayIndexDB arrayIndexDB = (ArrayIndexDB) indexDB;
                 BiFunction biFunction = arrayIndexDB.getBiFunction();
                 Object[] apply = (Object[]) biFunction.apply(key, value);
                 if (apply == null) {
                     continue;
                 }
-                if (logON) logger.info("ArrayIndex.count.elements = " + apply.length);
+                if (logON) log.info("ArrayIndex.count.elements = " + apply.length);
                 for (Object valueIndex : apply) {
                     byte[] bytes = indexDB.getIndexByteable().toBytes(valueIndex);
                     if (bytes == null) {
                         continue;
                     }
                     byte[] concatenateBiFunctionKey = Arrays.concatenate(bytes, keyBytes);
-                    if (logON) logger.info("ArrayIndex.bytes.length = " + bytes.length);
+                    if (logON) log.info("ArrayIndex.bytes.length = " + bytes.length);
                     dbSource.put(indexDB.getColumnFamilyHandle(), concatenateBiFunctionKey, keyBytes);
                 }
 
             } else if (indexDB instanceof ListIndexDB) {
-                if (logON) logger.info("ListIndex");
+                if (logON) log.info("ListIndex");
                 ListIndexDB listIndexDB = (ListIndexDB) indexDB;
                 BiFunction biFunction = listIndexDB.getBiFunction();
                 List<Object> apply = (List<Object>) biFunction.apply(key, value);
                 if (apply == null) {
                     continue;
                 }
-                if (logON) logger.info("ListIndex.count.elements = " + apply.size());
+                if (logON) log.info("ListIndex.count.elements = " + apply.size());
                 for (Object valueIndex : apply) {
                     byte[] bytes = indexDB.getIndexByteable().toBytes(valueIndex);
                     if (bytes == null) {
                         continue;
                     }
                     byte[] concatenateBiFunctionKey = Arrays.concatenate(bytes, keyBytes);
-                    if (logON) logger.info("ListIndex.bytes.length = " + bytes.length);
+                    if (logON) log.info("ListIndex.bytes.length = " + bytes.length);
                     dbSource.put(indexDB.getColumnFamilyHandle(), concatenateBiFunctionKey, keyBytes);
                 }
 
@@ -256,14 +253,14 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
 
     @Override
     public boolean set(K key, V value) {
-        if (logON) logger.info("put invoked");
+        if (logON) log.info("put invoked");
         //counterFlush++;
         final byte[] keyBytes = byteableKey.toBytesObject(key);
         boolean hasIndexes = indexes != null && !indexes.isEmpty();
         byte[] old;
         boolean oldExist;
 
-        if (logON) logger.info("keyBytes.length = " + keyBytes.length);
+        if (logON) log.info("keyBytes.length = " + keyBytes.length);
 
         if (hasIndexes) {
             oldExist = (old = dbSource.get(keyBytes)) != null;
@@ -282,7 +279,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
                 sizeBytes = dbSource.get(columnFamilyFieldSize, optionsReadDBcont, SIZE_BYTE_KEY);
                 Integer size = byteableInteger.receiveObjectFromBytes(sizeBytes);
                 size++;
-                if (logON) logger.info("put size = " + size);
+                if (logON) log.info("put size = " + size);
 
                 dbSource.put(columnFamilyFieldSize, SIZE_BYTE_KEY, byteableInteger.toBytesObject(size));
             }
@@ -291,14 +288,14 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
         byte[] bytesValue = byteableValue.toBytesObject(value);
         dbSource.put(keyBytes, bytesValue);
 
-        if (logON) logger.info("valueBytes.length = " + bytesValue.length);
+        if (logON) log.info("valueBytes.length = " + bytesValue.length);
 
         return oldExist;
     }
 
     @Override
     public void put(K key, V value) {
-        if (logON) logger.info("put invoked");
+        if (logON) log.info("put invoked");
         //counterFlush++;
         final byte[] keyBytes = byteableKey.toBytesObject(key);
         boolean hasIndexes = indexes != null && !indexes.isEmpty();
@@ -313,7 +310,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
             oldExist = false;
         }
 
-        if (logON) logger.info("keyBytes.length = " + keyBytes.length);
+        if (logON) log.info("keyBytes.length = " + keyBytes.length);
 
         if (enableSize) {
             if (!hasIndexes) {
@@ -326,7 +323,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
                 ///byte[] sizeBytes = dbSource.get(columnFamilyFieldSize, SIZE_BYTE_KEY);
                 Integer size = byteableInteger.receiveObjectFromBytes(sizeBytes);
                 size++;
-                if (logON) logger.info("put size = " + size);
+                if (logON) log.info("put size = " + size);
 
                 dbSource.put(columnFamilyFieldSize, SIZE_BYTE_KEY, byteableInteger.toBytesObject(size));
             }
@@ -334,7 +331,7 @@ public abstract class DBRocksDBTable<K, V> implements InnerDBTable
 
         byte[] bytesValue = byteableValue.toBytesObject(value);
         dbSource.put(keyBytes, bytesValue);
-        if (logON) logger.info("valueBytes.length = " + bytesValue.length);
+        if (logON) log.info("valueBytes.length = " + bytesValue.length);
     }
 
     void removeIndexes(Object key, byte[] keyBytes, byte[] valueByte) {

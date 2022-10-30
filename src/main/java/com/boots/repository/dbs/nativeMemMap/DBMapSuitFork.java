@@ -1,13 +1,11 @@
-package org.erachain.dbs.nativeMemMap;
+package com.boots.repository.dbs.nativeMemMap;
 
+import com.boots.repository.CONST;
+import com.boots.repository.dbs.*;
+import com.boots.repository.dbs.mapDB.DBMapSuit;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.controller.Controller;
-import org.erachain.database.DBASet;
-import org.erachain.datachain.DCSet;
-import org.erachain.dbs.*;
-import org.erachain.dbs.mapDB.DBMapSuit;
-import org.mapdb.Fun;
+import org.parboiled.common.Tuple2;
 
 import java.util.*;
 
@@ -44,7 +42,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
         if (Runtime.getRuntime().maxMemory() == Runtime.getRuntime().totalMemory()) {
             if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
-                    + (Controller.MIN_MEMORY_TAIL)) {
+                    + (CONST.MIN_MEMORY_TAIL)) {
 
                 logger.debug("########################### Max=Total Memory [MB]:" + (Runtime.getRuntime().totalMemory() >> 20)
                         + " " + cover.getClass().getName());
@@ -55,8 +53,8 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
                 ((DBASet) parent.getDBSet()).clearCache();
                 System.gc();
                 if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
-                        + (Controller.MIN_MEMORY_TAIL << 1))
-                    Controller.getInstance().stopAndExit(1021);
+                        + (CONST.MIN_MEMORY_TAIL << 1))
+                    CONST.getInstance().stopAndExit(1021);
             }
         }
 
@@ -109,7 +107,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
     @Override
     public U get(T key) {
 
-        if (DCSet.isStoped()) {
+        if (database.getStore().isClosed()) {
             return null;
         }
 
@@ -153,7 +151,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
     @Override
     public boolean set(T key, U value) {
-        if (DCSet.isStoped()) {
+        if (database.isClosed()) {
             return false;
         }
 
@@ -183,7 +181,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
     @Override
     public void put(T key, U value) {
-        if (DCSet.isStoped()) {
+        if (database.isClosed()) {
             return;
         }
 
@@ -208,7 +206,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
     @Override
     public U remove(T key) {
 
-        if (DCSet.isStoped()) {
+        if (database.isClosed()) {
             return null;
         }
 
@@ -253,7 +251,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
     @Override
     public boolean contains(T key) {
 
-        if (DCSet.isStoped()) {
+        if (database.isClosed()) {
             return false;
         }
 
@@ -347,9 +345,9 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
         if (index > 0) {
             // 0 - это главный индекс - он не в списке indexes
-            NavigableSet<Fun.Tuple2<?, T>> indexSet = getIndex(index, descending);
+            NavigableSet<Tuple2<?, T>> indexSet = getIndex(index, descending);
             if (indexSet != null) {
-                iterator = new org.erachain.datachain.IndexIterator<>(this.indexes.get(index));
+                iterator = new IndexIterator<>(this.indexes.get(index));
             } else {
                 if (descending) {
                     iterator = new IteratorCloseableImpl(((NavigableMap<T, U>) this.map).descendingKeySet().iterator());

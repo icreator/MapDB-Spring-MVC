@@ -1,19 +1,8 @@
-package org.erachain.dbs.rocksDB;
+package com.boots.repository.dbs.rocksDB;
 
 import com.google.common.primitives.Ints;
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.core.item.assets.TradePair;
-import org.erachain.database.DBASet;
-import org.erachain.database.PairSuit;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.rocksDB.common.RocksDbSettings;
-import org.erachain.dbs.rocksDB.integration.DBRocksDBTableDBCommitedAsBath;
-import org.erachain.dbs.rocksDB.transformation.ByteableTrade;
-import org.erachain.dbs.rocksDB.transformation.tuples.ByteableTuple2LongLong;
 import org.mapdb.DB;
-import org.mapdb.Fun.Tuple2;
-import org.rocksdb.ReadOptions;
-import org.rocksdb.WriteOptions;
 
 import java.util.ArrayList;
 

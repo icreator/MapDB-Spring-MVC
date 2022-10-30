@@ -1,4 +1,4 @@
-package org.erachain.dbs.rocksDB.common;
+package com.boots.repository.dbs.rocksDB.common;
 
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;

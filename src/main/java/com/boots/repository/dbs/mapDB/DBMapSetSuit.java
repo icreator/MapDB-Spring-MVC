@@ -1,11 +1,11 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
-import org.erachain.database.DBASet;
-import org.erachain.dbs.DBTab;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.IteratorCloseableImpl;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.DBTab;
+import com.boots.repository.dbs.IteratorCloseable;
+import com.boots.repository.dbs.IteratorCloseableImpl;
 import org.mapdb.DB;
-import org.mapdb.Fun.Tuple2;
+import org.parboiled.common.Tuple2;
 import org.slf4j.Logger;
 
 import java.util.Iterator;
@@ -38,7 +38,7 @@ public abstract class DBMapSetSuit<T> extends DBMapSuit<T, Boolean> {
      * @param cover
      */
     public DBMapSetSuit(DBASet databaseSet, DB database, Logger logger, boolean sizeEnable, DBTab cover) {
-        super(databaseSet, database, logger, sizeEnable, cover);
+        super(databaseSet, database, sizeEnable, cover);
     }
 
     public DBMapSetSuit(DBASet databaseSet, DB database, Logger logger, boolean sizeEnable) {
@@ -228,7 +228,7 @@ public abstract class DBMapSetSuit<T> extends DBMapSuit<T, Boolean> {
     @Override
     public void clear() {
 
-        if (this.database.getEngine().isClosed())
+        if (this.database.isClosed())
             return;
 
         this.addUses();
@@ -263,7 +263,7 @@ public abstract class DBMapSetSuit<T> extends DBMapSuit<T, Boolean> {
 
     @Override
     public boolean isClosed() {
-        return database.getEngine().isClosed();
+        return database.isClosed();
     }
 
     @Override

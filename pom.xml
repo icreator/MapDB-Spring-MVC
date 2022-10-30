@@ -84,6 +84,16 @@
             <artifactId>rocksdb-multiplatform</artifactId>
             <version>7.3.1-2</version>
         </dependency>
+        <dependency>
+            <groupId>org.rocksdb</groupId>
+            <artifactId>rocksdbjni</artifactId>
+            <version>6.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.7.6</version>
+        </dependency>
 
     </dependencies>
 

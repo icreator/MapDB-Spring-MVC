@@ -1,4 +1,4 @@
-package org.erachain.dbs.rocksDB.transformation;
+package com.boots.repository.dbs.rocksDB.transformation;
 
 public class ByteableTrivial implements Byteable<byte[]> {
     @Override

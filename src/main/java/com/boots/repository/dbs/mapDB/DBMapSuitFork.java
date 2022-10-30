@@ -1,12 +1,10 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
+import com.boots.repository.CONST;
+import com.boots.repository.dbs.*;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
-import org.erachain.controller.Controller;
-import org.erachain.database.DBASet;
-import org.erachain.datachain.DCSet;
-import org.erachain.dbs.*;
-import org.mapdb.Fun;
+import org.parboiled.common.Tuple2;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -47,14 +45,14 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
             // System.out.println("########################### Free Memory:"
             // + Runtime.getRuntime().freeMemory());
             if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
-                    + Controller.MIN_MEMORY_TAIL) {
+                    + CONST.MIN_MEMORY_TAIL) {
                 // у родителя чистим - у себя нет, так как только создали
                 ((DCSet) parent.getDBSet()).clearCache();
                 System.gc();
                 if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
-                        + (Controller.MIN_MEMORY_TAIL << 1)) {
+                        + (CONST.MIN_MEMORY_TAIL << 1)) {
                     logger.error("Heap Memory Overflow");
-                    Controller.getInstance().stopAndExit(1011);
+                    CONST.getInstance().stopAndExit(1011);
                 }
             }
         }
@@ -376,9 +374,9 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
         if (index > 0) {
             // 0 - это главный индекс - он не в списке indexes
-            NavigableSet<Fun.Tuple2<?, T>> indexSet = getIndex(index, descending);
+            NavigableSet<Tuple2<?, T>> indexSet = getIndex(index, descending);
             if (indexSet != null) {
-                iterator = new org.erachain.datachain.IndexIterator<>(this.indexes.get(index));
+                iterator = new IndexIterator<>(this.indexes.get(index));
             } else {
                 if (descending) {
                     iterator = new IteratorCloseableImpl(((NavigableMap<T, U>) this.map).descendingKeySet().iterator());

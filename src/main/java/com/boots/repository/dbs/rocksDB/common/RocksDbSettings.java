@@ -1,4 +1,4 @@
-package org.erachain.dbs.rocksDB.common;
+package com.boots.repository.dbs.rocksDB.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

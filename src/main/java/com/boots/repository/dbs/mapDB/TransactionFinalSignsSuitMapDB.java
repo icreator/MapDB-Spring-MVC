@@ -1,13 +1,9 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
-// 30/03
-
+import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
+import com.boots.repository.dbs.DBASet;
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.database.DBASet;
-import org.erachain.datachain.TransactionFinalMapSignsSuit;
 import org.mapdb.DB;
-import org.mapdb.Hasher;
-import org.mapdb.SerializerBase;
 
 
 /**
@@ -34,7 +30,7 @@ public class TransactionFinalSignsSuitMapDB extends DBMapSuit<byte[], Long> impl
     public void openMap() {
         //OPEN MAP
         // HASH map is so QUICK
-        DB.HTreeMapMaker mapConstruct = database.createHashMap("signature_final_tx")
+        DB.HashMapMaker mapConstruct = database.hashMap("signature_final_tx")
                 .keySerializer(SerializerBase.BYTE_ARRAY)
                 .hasher(Hasher.BYTE_ARRAY)
                 .valueSerializer(SerializerBase.LONG);
@@ -42,7 +38,7 @@ public class TransactionFinalSignsSuitMapDB extends DBMapSuit<byte[], Long> impl
         if (sizeEnable)
             mapConstruct = mapConstruct.counterEnable();
 
-        map = mapConstruct.makeOrGet();
+        map = mapConstruct.createOrOpen();
     }
 
 }

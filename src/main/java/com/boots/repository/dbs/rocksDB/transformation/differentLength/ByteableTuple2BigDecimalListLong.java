@@ -1,10 +1,4 @@
-package org.erachain.dbs.rocksDB.transformation.differentLength;
-
-import org.erachain.dbs.rocksDB.transformation.Byteable;
-import org.erachain.dbs.rocksDB.transformation.ByteableInteger;
-import org.erachain.dbs.rocksDB.transformation.ByteableLong;
-import org.erachain.dbs.rocksDB.transformation.lists.ByteableList;
-import org.mapdb.Fun.Tuple2;
+package com.boots.repository.dbs.rocksDB.transformation.differentLength;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

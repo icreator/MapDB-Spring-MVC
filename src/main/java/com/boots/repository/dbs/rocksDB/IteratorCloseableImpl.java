@@ -1,9 +1,6 @@
-package org.erachain.dbs.rocksDB;
+package com.boots.repository.dbs.rocksDB;
 
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.rocksDB.common.DBIterator;
-import org.erachain.dbs.rocksDB.transformation.Byteable;
 
 import java.io.IOException;
 

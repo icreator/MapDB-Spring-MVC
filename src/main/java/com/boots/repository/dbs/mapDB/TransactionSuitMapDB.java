@@ -1,4 +1,4 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.controller.Controller;
@@ -38,11 +38,11 @@ public class TransactionSuitMapDB extends DBMapSuit<Long, Transaction> implement
     public NavigableSet typeKey;
 
     public TransactionSuitMapDB(DBASet databaseSet, DB database) {
-        super(databaseSet, database, logger, true, null);
+        super(databaseSet, database, true, null);
     }
 
     public TransactionSuitMapDB(DBASet databaseSet, DB database, Logger logger) {
-        super(databaseSet, database, logger, true, null);
+        super(databaseSet, database, true, null);
     }
 
     @Override

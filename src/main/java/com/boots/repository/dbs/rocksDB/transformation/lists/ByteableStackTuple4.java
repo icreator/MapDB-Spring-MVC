@@ -1,10 +1,8 @@
-package org.erachain.dbs.rocksDB.transformation.lists;
+package com.boots.repository.dbs.rocksDB.transformation.lists;
 
-import org.erachain.dbs.rocksDB.transformation.Byteable;
-import org.erachain.dbs.rocksDB.transformation.ByteableInteger;
-import org.erachain.dbs.rocksDB.transformation.ByteableLong;
-import org.erachain.dbs.rocksDB.transformation.tuples.ByteableTuple4;
-import org.mapdb.Fun.Tuple4;
+import com.boots.repository.dbs.rocksDB.transformation.ByteableInteger;
+import com.boots.repository.dbs.rocksDB.transformation.ByteableLong;
+import com.boots.repository.dbs.rocksDB.transformation.tuples.ByteableTuple4;
 
 public class ByteableStackTuple4 extends ByteableStack<Tuple4<Long, Integer, Integer, Integer>> {
 

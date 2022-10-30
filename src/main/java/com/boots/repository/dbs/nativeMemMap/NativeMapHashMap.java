@@ -1,9 +1,9 @@
-package org.erachain.dbs.nativeMemMap;
+package com.boots.repository.dbs.nativeMemMap;
 
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.DBTab;
+import com.boots.repository.dbs.mapDB.DBMapSuit;
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.database.DBASet;
-import org.erachain.dbs.DBTab;
-import org.erachain.dbs.mapDB.DBMapSuit;
 import org.mapdb.DB;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class NativeMapHashMap<T, U> extends DBMapSuit<T, U> {
 
     public NativeMapHashMap(DBASet databaseSet, DB database, DBTab cover) {
-        super(databaseSet, database, logger, false, cover);
+        super(databaseSet, database, false, cover);
     }
 
     @Override

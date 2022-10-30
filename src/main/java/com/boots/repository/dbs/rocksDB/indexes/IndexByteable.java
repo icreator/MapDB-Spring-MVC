@@ -1,4 +1,5 @@
-package org.erachain.dbs.rocksDB.indexes;
+package com.boots.repository.dbs.rocksDB.indexes;
+
 
 public interface IndexByteable<R, K> {
     byte[] toBytes(R result);

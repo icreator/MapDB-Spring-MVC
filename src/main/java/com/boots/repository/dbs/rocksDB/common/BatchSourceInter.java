@@ -16,7 +16,7 @@
  * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.erachain.dbs.rocksDB.common;
+package com.boots.repository.dbs.rocksDB.common;
 
 import org.rocksdb.WriteOptions;
 

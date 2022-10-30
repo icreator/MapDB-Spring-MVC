@@ -1,9 +1,9 @@
-package org.erachain.dbs.nativeMemMap;
+package com.boots.repository.dbs.nativeMemMap;
 
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.DBTab;
+import com.boots.repository.dbs.ForkedMap;
 import lombok.extern.slf4j.Slf4j;
-import org.erachain.database.DBASet;
-import org.erachain.dbs.DBTab;
-import org.erachain.dbs.ForkedMap;
 
 import java.util.Comparator;
 import java.util.TreeMap;

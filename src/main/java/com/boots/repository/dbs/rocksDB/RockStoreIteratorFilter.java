@@ -1,11 +1,8 @@
-package org.erachain.dbs.rocksDB;
+package com.boots.repository.dbs.rocksDB;
 
 import lombok.extern.slf4j.Slf4j;
-import org.rocksdb.RocksIterator;
-
 import java.util.NoSuchElementException;
 
-import static org.erachain.utils.ByteArrayUtils.areEqualMask;
 
 @Slf4j
 public final class RockStoreIteratorFilter extends RockStoreIterator {

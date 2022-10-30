@@ -1,4 +1,5 @@
-package org.erachain.dbs.rocksDB.exceptions;
+package com.boots.repository.dbs.rocksDB.exceptions;
+
 
 public class UnsupportedTypeIndexException extends RuntimeException {
 }

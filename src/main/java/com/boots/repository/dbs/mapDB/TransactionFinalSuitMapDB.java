@@ -1,7 +1,9 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
 //04/01 +- 
 
+import com.boots.repository.dbs.IteratorCloseable;
+import com.boots.repository.dbs.IteratorCloseableImpl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.SignedBytes;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +73,7 @@ public class TransactionFinalSuitMapDB extends DBMapSuit<Long, Transaction> impl
     private NavigableSet titleKey;
 
     public TransactionFinalSuitMapDB(DBASet databaseSet, DB database, boolean sizeEnable) {
-        super(databaseSet, database, logger, sizeEnable, null);
+        super(databaseSet, database, sizeEnable, null);
     }
 
     @Override

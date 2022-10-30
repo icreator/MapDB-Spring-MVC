@@ -1,12 +1,11 @@
-package org.erachain.dbs.rocksDB;
+package com.boots.repository.dbs.rocksDB;
 
-import org.erachain.database.DBASet;
-import org.erachain.dbs.DBSuitImpl;
-import org.erachain.dbs.DBTab;
-import org.erachain.dbs.IteratorCloseable;
-import org.erachain.dbs.Transacted;
-import org.erachain.dbs.rocksDB.indexes.IndexDB;
-import org.erachain.dbs.rocksDB.integration.DBRocksDBTable;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.DBSuitImpl;
+import com.boots.repository.dbs.DBTab;
+import com.boots.repository.dbs.IteratorCloseable;
+import com.boots.repository.dbs.rocksDB.indexes.IndexDB;
+import com.boots.repository.dbs.rocksDB.integration.DBRocksDBTable;
 import org.mapdb.DB;
 import org.slf4j.Logger;
 

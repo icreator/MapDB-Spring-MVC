@@ -1,4 +1,4 @@
-package org.erachain.dbs.nativeMemMap;
+package com.boots.repository.dbs.nativeMemMap;
 
 import java.util.HashMap;
 

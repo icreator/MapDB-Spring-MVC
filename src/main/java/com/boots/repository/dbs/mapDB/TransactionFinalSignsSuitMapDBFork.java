@@ -1,7 +1,8 @@
-package org.erachain.dbs.mapDB;
+package com.boots.repository.dbs.mapDB;
 
 // 30/03
 
+import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
 import com.google.common.primitives.UnsignedBytes;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.database.DBASet;
