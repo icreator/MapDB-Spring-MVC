@@ -1,9 +1,11 @@
-package com.boots.repository.dbs.mapDB;
+package com.boots.repository.db_a;
 
 import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
 import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.mapDB.DBMapSuit;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
+import org.mapdb.Fun;
 
 
 /**
@@ -23,7 +25,7 @@ public class TransactionFinalSignsSuitMapDB extends DBMapSuit<byte[], Long> impl
 
 
     public TransactionFinalSignsSuitMapDB(DBASet databaseSet, DB database, boolean sizeEnable) {
-        super(databaseSet, database, logger, sizeEnable);
+        super(databaseSet, database, sizeEnable);
     }
 
     @Override

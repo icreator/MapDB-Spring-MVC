@@ -143,18 +143,9 @@ public class DCSet_A extends DBASet implements Closeable  {
         this.inMemory = inMemory;
 
         try {
+
             // переделанные таблицы
-
-            this.timeTXDoneMap = new TimeTXDoneMap(defaultDBS != DBS_FAST ? defaultDBS :
-                    TIME_DONE_MAP
-                    , this, database);
-            this.timeTXWaitMap = new TimeTXWaitMap(defaultDBS != DBS_FAST ? defaultDBS :
-                    TIME_WAIT_MAP
-                    , this, database);
-
             this.actions = 0L;
-
-            this.transactionFinalCalculatedMap = new TransactionFinalCalculatedMap(this, database);
 
 
             // IT OPEN AFTER ALL OTHER for make secondary keys and setDCSet_A

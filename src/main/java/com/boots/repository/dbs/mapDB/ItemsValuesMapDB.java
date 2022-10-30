@@ -3,6 +3,7 @@ package com.boots.repository.dbs.mapDB;
 import com.boots.repository.dbs.DBASet;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
+import org.mapdb.Fun;
 import org.parboiled.common.Tuple3;
 
 
@@ -10,7 +11,7 @@ import org.parboiled.common.Tuple3;
 public class ItemsValuesMapDB extends DBMapSuit<Tuple3<Long, Byte, byte[]>, byte[]> {
 
     public ItemsValuesMapDB(DBASet databaseSet, DB database) {
-        super(databaseSet, database, logger, false);
+        super(databaseSet, database);
     }
 
     @Override

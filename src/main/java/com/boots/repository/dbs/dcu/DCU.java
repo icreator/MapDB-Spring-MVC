@@ -2,9 +2,11 @@ package com.boots.repository.dbs.dcu;
 
 import com.boots.repository.dbs.DBASet;
 import com.boots.repository.dbs.DCUMapImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
 import org.mapdb.Serializer;
 
+@Slf4j
 public class DCU {
     /**
      * Тут нет использования другой базы данных - только MapDB для всех таблиц - поэтому немного другая логика - более простая

@@ -1,8 +1,9 @@
-package com.boots.repository.dbs.mapDB;
+package com.boots.repository.db_a;
 
 // 30/03
 
 import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
+import com.boots.repository.dbs.mapDB.DBMapSuitFork;
 import com.google.common.primitives.UnsignedBytes;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.database.DBASet;
@@ -33,7 +34,7 @@ public class TransactionFinalSignsSuitMapDBFork extends DBMapSuitFork<byte[], Lo
 
 
     public TransactionFinalSignsSuitMapDBFork(TransactionFinalMapSigns parent, DBASet databaseSet, boolean sizeEnable) {
-        super(parent, databaseSet, logger, sizeEnable, null);
+        super(parent, databaseSet, sizeEnable, null);
     }
 
     @Override

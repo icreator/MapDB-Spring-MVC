@@ -1,5 +1,6 @@
-package com.boots.repository.dbs.mapDB;
+package com.boots.repository.db_a;
 
+import com.boots.repository.dbs.mapDB.DBMapSuit;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.controller.Controller;
 import org.erachain.core.account.Account;

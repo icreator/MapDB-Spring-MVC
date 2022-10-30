@@ -1,7 +1,12 @@
-package com.boots.repository.dbs.mapDB;
+package com.boots.repository.db_a;
 
 //04/01 +- 
 
+import com.boots.repository.db_a.TransactionFinalMap;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.IteratorParent;
+import com.boots.repository.dbs.MergedOR_IteratorsNoDuplicates;
+import com.boots.repository.dbs.mapDB.DBMapSuitFork;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.SignedBytes;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +23,7 @@ import org.mapdb.BTreeKeySerializer.BasicKeySerializer;
 import org.mapdb.BTreeMap;
 import org.mapdb.Bind;
 import org.mapdb.Fun;
+import org.parboiled.common.ImmutableList;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -55,7 +61,7 @@ public class TransactionFinalSuitMapDBFork extends DBMapSuitFork<Long, Transacti
     private NavigableSet addressTypeKey;
 
     public TransactionFinalSuitMapDBFork(TransactionFinalMap parent, DBASet databaseSet) {
-        super(parent, databaseSet, logger, false, null);
+        super(parent, databaseSet, false, null);
     }
 
     @Override

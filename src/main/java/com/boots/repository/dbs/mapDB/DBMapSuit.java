@@ -4,7 +4,6 @@ import com.boots.repository.dbs.*;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
 import org.parboiled.common.Tuple2;
-import org.slf4j.Logger;
 
 import java.util.*;
 
@@ -60,11 +59,11 @@ public abstract class DBMapSuit<T, U> extends DBSuitImpl<T, U> {
         log.info("USED");
     }
 
-    public DBMapSuit(DBASet databaseSet, DB database, Logger logger, boolean sizeEnable) {
+    public DBMapSuit(DBASet databaseSet, DB database, boolean sizeEnable) {
         this(databaseSet, database, sizeEnable, null);
     }
 
-    public DBMapSuit(DBASet databaseSet, DB database, Logger logger) {
+    public DBMapSuit(DBASet databaseSet, DB database) {
         this(databaseSet, database, false, null);
     }
 

@@ -4,10 +4,13 @@ import com.boots.repository.CONST;
 import com.boots.repository.dbs.*;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
-import org.parboiled.common.Tuple2;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+import org.mapdb.Fun;
+//import org.parboiled.common.Tuple2;
 
 import java.util.*;
+
+@Slf4j
 
 /**
  * Оболочка для Карты от конкретной СУБД чтобы эту оболочку вставлять в Таблицу, которая форкнута (см. fork()).
@@ -32,12 +35,11 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
     Map<T, Boolean> deleted;
     int shiftSize;
 
-    public DBMapSuitFork(DBTab parent, DBASet dcSet, Logger logger, boolean sizeEnable, DBTab cover) {
+    public DBMapSuitFork(DBTab parent, DBASet dcSet, boolean sizeEnable, DBTab cover) {
         assert (parent != null);
 
         this.databaseSet = dcSet;
         this.database = dcSet.database;
-        this.logger = logger;
         this.cover = cover;
         this.sizeEnable = sizeEnable;
 
@@ -47,11 +49,11 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
             if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
                     + CONST.MIN_MEMORY_TAIL) {
                 // у родителя чистим - у себя нет, так как только создали
-                ((DCSet) parent.getDBSet()).clearCache();
+                ((DBASet) parent.getDBSet()).clearCache();
                 System.gc();
                 if (Runtime.getRuntime().freeMemory() < (Runtime.getRuntime().totalMemory() >> 10)
                         + (CONST.MIN_MEMORY_TAIL << 1)) {
-                    logger.error("Heap Memory Overflow");
+                    log.error("Heap Memory Overflow");
                     CONST.getInstance().stopAndExit(1011);
                 }
             }
@@ -63,12 +65,12 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
 
     }
 
-    public DBMapSuitFork(DBTab parent, DBASet dcSet, Logger logger, DBTab cover) {
-        this(parent, dcSet, logger, false, cover);
+    public DBMapSuitFork(DBTab parent, DBASet dcSet, DBTab cover) {
+        this(parent, dcSet, false, cover);
     }
 
-    public DBMapSuitFork(DBTab parent, DBASet dcSet, Logger logger) {
-        this(parent, dcSet, logger, false, null);
+    public DBMapSuitFork(DBTab parent, DBASet dcSet) {
+        this(parent, dcSet, false, null);
     }
 
 
@@ -116,7 +118,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
             return u;
         } catch (Exception e) {
 
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
 
             U u = this.getDefaultValue(key);
             return u;
@@ -152,7 +154,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
             return exist;
 
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
         return false;
@@ -177,7 +179,7 @@ public abstract class DBMapSuitFork<T, U> extends DBMapSuit<T, U> implements For
             }
 
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
     }

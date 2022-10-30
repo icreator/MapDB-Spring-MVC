@@ -1,9 +1,10 @@
-package com.boots.repository.dbs.mapDB;
+package com.boots.repository.db_a;
 
 //04/01 +- 
 
 import com.boots.repository.dbs.IteratorCloseable;
 import com.boots.repository.dbs.IteratorCloseableImpl;
+import com.boots.repository.dbs.mapDB.DBMapSuit;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.SignedBytes;
 import lombok.extern.slf4j.Slf4j;
@@ -244,7 +245,7 @@ public class TransactionFinalSuitMapDB extends DBMapSuit<Long, Transaction> impl
                         // При удалении - транзакция то берется из базы для создания индексов к удалению.
                         // И она скелет - нужно базу данных задать и водтянуть номера сущностей и все заново просчитать чтобы правильно удалить метки
                         if (transaction.noDCSet()) {
-                            transaction.setDC((DCSet) databaseSet, true);
+                            transaction.setDC((DCSet_A) databaseSet, true);
                         }
 
                         String[] tokens = transaction.getTags();
