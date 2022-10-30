@@ -1,4 +1,4 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
 import com.boots.repository.dbs.mapDB.DBMapSuit;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,10 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
-import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
+import com.boots.repository.dbs.mapDB.map.TransactionFinalMapSignsSuit;
 import com.boots.repository.dbs.DBASet;
 import com.boots.repository.dbs.mapDB.DBMapSuit;
 import lombok.extern.slf4j.Slf4j;
 import org.mapdb.DB;
-import org.mapdb.Fun;
 
 
 /**

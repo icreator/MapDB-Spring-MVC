@@ -1,5 +1,6 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.nativeMemMap.map;
 
+import com.boots.repository.dbs.mapDB.map.TransactionSuitMapDB;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.core.transaction.Transaction;
 import org.erachain.database.DBASet;

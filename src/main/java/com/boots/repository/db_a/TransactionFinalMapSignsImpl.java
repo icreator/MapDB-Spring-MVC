@@ -4,6 +4,8 @@ package com.boots.repository.db_a;
 //04/01 +- 
 
 import com.boots.repository.dbs.DBTabImpl;
+import com.boots.repository.dbs.mapDB.map.TransactionFinalSignsSuitMapDB;
+import com.boots.repository.dbs.mapDB.map.TransactionFinalSignsSuitMapDBFork;
 import org.erachain.dbs.DBTabImpl;
 import org.erachain.dbs.mapDB.TransactionFinalSignsSuitMapDB;
 import org.erachain.dbs.mapDB.TransactionFinalSignsSuitMapDBFork;

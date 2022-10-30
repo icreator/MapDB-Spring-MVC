@@ -17,18 +17,12 @@ public class DCSet_C extends DBASet {
     final static int CURRENT_VERSION = 2;
 
     final private FPoolMap fPoolMap;
-    final private FPoolBlocksMap blocksMap;
-    final private FPoolBlocksHistoryMap blocksHistoryMap;
-    final private FPoolBalancesMap balancesMap;
 
-    public DPSet(File dbFile, DB database, boolean withObserver, boolean dynamicGUI) {
+    public DCSet_C(File dbFile, DB database, boolean withObserver, boolean dynamicGUI) {
         super(dbFile, database, withObserver, dynamicGUI);
         this.fPoolMap = new FPoolMap(this, this.database);
-        this.blocksMap = new FPoolBlocksMap(this, this.database);
-        this.blocksHistoryMap = new FPoolBlocksHistoryMap(this, this.database);
-        this.balancesMap = new FPoolBalancesMap(this, this.database);
     }
-
+    
     static DB makeDB(File dbFile) {
 
         boolean isNew = !dbFile.exists();
@@ -71,7 +65,7 @@ public class DCSet_C extends DBASet {
 
     }
 
-    public static DPSet reCreateDB() {
+    public static DCSet_C reCreateDB() {
 
         //OPEN DB
         File dbFile = new File(Settings.getInstance().getFPoolDir(), "data.dat");
@@ -80,49 +74,37 @@ public class DCSet_C extends DBASet {
         try {
             database = makeDB(dbFile);
         } catch (Throwable e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             try {
                 Files.walkFileTree(dbFile.getParentFile().toPath(),
                         new SimpleFileVisitorForRecursiveFolderDeletion());
             } catch (Throwable e1) {
-                logger.error(e1.getMessage(), e1);
+                log.error(e1.getMessage(), e1);
             }
             database = makeDB(dbFile);
         }
 
         if (DBASet.getVersion(database) < CURRENT_VERSION) {
             database.close();
-            logger.warn("New Version: " + CURRENT_VERSION + ". Try remake DLSet.");
+            log.warn("New Version: " + CURRENT_VERSION + ". Try remake DLSet.");
             try {
                 Files.walkFileTree(dbFile.getParentFile().toPath(),
                         new SimpleFileVisitorForRecursiveFolderDeletion());
             } catch (Throwable e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
             database = makeDB(dbFile);
 
         }
 
-        return new DPSet(dbFile, database, true, true);
+        return new DCSet_C(dbFile, database, true, true);
 
     }
 
     public FPoolMap getFPoolMap() {
         return this.fPoolMap;
     }
-
-    public FPoolBlocksMap getBlocksMap() {
-        return this.blocksMap;
-    }
-
-    public FPoolBlocksHistoryMap getBlocksHistoryMap() {
-        return this.blocksHistoryMap;
-    }
-
-    public FPoolBalancesMap getBalancesMap() {
-        return this.balancesMap;
-    }
-
+    
     @Override
     public void close() {
 

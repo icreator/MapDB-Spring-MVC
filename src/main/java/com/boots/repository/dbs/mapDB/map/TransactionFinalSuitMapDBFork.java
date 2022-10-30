@@ -1,8 +1,10 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
 //04/01 +- 
 
 import com.boots.repository.db_a.TransactionFinalMap;
+import com.boots.repository.db_a.TransactionFinalMapImpl;
+import com.boots.repository.db_a.TransactionFinalSuit;
 import com.boots.repository.dbs.DBASet;
 import com.boots.repository.dbs.IteratorParent;
 import com.boots.repository.dbs.MergedOR_IteratorsNoDuplicates;

@@ -1,7 +1,10 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
 //04/01 +- 
 
+import com.boots.repository.db_a.DCSet_A;
+import com.boots.repository.db_a.TransactionFinalMap;
+import com.boots.repository.db_a.TransactionFinalSuit;
 import com.boots.repository.dbs.IteratorCloseable;
 import com.boots.repository.dbs.IteratorCloseableImpl;
 import com.boots.repository.dbs.mapDB.DBMapSuit;

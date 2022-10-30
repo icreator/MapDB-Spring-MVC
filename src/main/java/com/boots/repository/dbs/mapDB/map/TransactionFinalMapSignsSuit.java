@@ -1,4 +1,4 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
 
 public interface TransactionFinalMapSignsSuit {

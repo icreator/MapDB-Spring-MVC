@@ -1,8 +1,9 @@
-package com.boots.repository.db_a;
+package com.boots.repository.dbs.mapDB.map;
 
 // 30/03
 
-import com.boots.repository.db_a.TransactionFinalMapSignsSuit;
+import com.boots.repository.db_a.TransactionFinalMapSigns;
+import com.boots.repository.dbs.mapDB.map.TransactionFinalMapSignsSuit;
 import com.boots.repository.dbs.mapDB.DBMapSuitFork;
 import com.google.common.primitives.UnsignedBytes;
 import lombok.extern.slf4j.Slf4j;
