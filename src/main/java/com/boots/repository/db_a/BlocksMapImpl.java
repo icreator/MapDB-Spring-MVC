@@ -1,4 +1,4 @@
-package org.erachain.datachain;
+package com.boots.repository.db_a;
 
 // 30/03
 
@@ -18,6 +18,7 @@ import org.mapdb.Atomic;
 import org.mapdb.DB;
 import org.mapdb.Fun;
 
+import static com.boots.repository.IDB.DBS_ROCK_DB;
 import static org.erachain.database.IDB.DBS_MAP_DB;
 import static org.erachain.database.IDB.DBS_ROCK_DB;
 

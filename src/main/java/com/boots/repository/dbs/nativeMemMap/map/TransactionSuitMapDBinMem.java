@@ -1,6 +1,11 @@
 package com.boots.repository.dbs.nativeMemMap.map;
 
+import com.boots.repository.CONST;
+import com.boots.repository.db_a.DCSet_A;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.dcu.DCU;
 import com.boots.repository.dbs.mapDB.map.TransactionSuitMapDB;
+import com.boots.repository.dbs.serializer.TransactionSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.core.transaction.Transaction;
 import org.erachain.database.DBASet;
@@ -22,17 +27,17 @@ import java.util.TreeSet;
 public class TransactionSuitMapDBinMem extends TransactionSuitMapDB {
 
     public TransactionSuitMapDBinMem(DBASet databaseSet, DB database) {
-        super(databaseSet, null, logger);
+        super(databaseSet, null);
     }
 
     @Override
     public void openMap() {
 
         if (true) {
-            database = DCSet.makeDBinMemory();
+            database = DCSet_A.makeDBinMemory();
         } else {
 
-            File dbFile = new File(Settings.getInstance().getDataChainPath(), "txPool.dat");
+            File dbFile = new File(CONST.getInstance().getDataChainPath(), "txPool.dat");
             dbFile.getParentFile().mkdirs();
 
             /// https://jankotek.gitbooks.io/mapdb/performance/
@@ -79,7 +84,7 @@ public class TransactionSuitMapDBinMem extends TransactionSuitMapDB {
         // OPEN MAP
         map = database.createHashMap("transactions")
                 .keySerializer(SerializerBase.LONG)
-                .valueSerializer(new TransactionUncSerializer())
+                .valueSerializer(new TransactionSerializer())
                 .counterEnable() // разрешаем счет размера - это будет немного тормозить работу
                 .makeOrGet();
 

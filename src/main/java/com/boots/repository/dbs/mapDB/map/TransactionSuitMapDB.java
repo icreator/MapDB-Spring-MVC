@@ -1,6 +1,12 @@
 package com.boots.repository.dbs.mapDB.map;
 
+import com.boots.entity.Transaction;
+import com.boots.repository.dbs.DBASet;
+import com.boots.repository.dbs.IndexIterator;
+import com.boots.repository.dbs.IteratorCloseable;
+import com.boots.repository.dbs.IteratorCloseableImpl;
 import com.boots.repository.dbs.mapDB.DBMapSuit;
+import com.boots.repository.dbs.serializer.TransactionSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.controller.Controller;
 import org.erachain.core.account.Account;
@@ -18,6 +24,7 @@ import org.mapdb.Fun;
 import org.mapdb.Fun.Tuple2;
 import org.mapdb.Fun.Tuple2Comparator;
 import org.mapdb.SerializerBase;
+import org.parboiled.common.Tuple3;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Array;
@@ -42,10 +49,6 @@ public class TransactionSuitMapDB extends DBMapSuit<Long, Transaction> implement
         super(databaseSet, database, true, null);
     }
 
-    public TransactionSuitMapDB(DBASet databaseSet, DB database, Logger logger) {
-        super(databaseSet, database, true, null);
-    }
-
     @Override
     public void openMap() {
 
@@ -54,7 +57,7 @@ public class TransactionSuitMapDB extends DBMapSuit<Long, Transaction> implement
         // OPEN MAP
         map = database.createHashMap("transactions")
                 .keySerializer(SerializerBase.LONG)
-                .valueSerializer(new TransactionUncSerializer())
+                .valueSerializer(new TransactionSerializer())
                 .counterEnable() // разрешаем счет размера - это будет немного тормозить работу
                 .makeOrGet();
 
@@ -80,11 +83,6 @@ public class TransactionSuitMapDB extends DBMapSuit<Long, Transaction> implement
                 return value.getTimestamp();
             }
         });
-
-        ///////////////
-        if (Controller.getInstance().onlyProtocolIndexing)
-            // NOT USE SECONDARY INDEXES
-            return;
 
         this.senderKey = database.createTreeSet("sender_unc_txs").comparator(Fun.COMPARATOR)
                 .makeOrGet();
@@ -153,7 +151,7 @@ public class TransactionSuitMapDB extends DBMapSuit<Long, Transaction> implement
 
     public IteratorCloseable<Long> typeIterator(String sender, Long timestamp, Integer type) {
         return new IteratorCloseableImpl(Fun.filter(typeKey,
-                new Fun.Tuple3<String, Long, Integer>(sender, timestamp, type)).iterator());
+                new Tuple3<String, Long, Integer>(sender, timestamp, type)).iterator());
     }
 
     public IteratorCloseable<Long> senderIterator(String sender) {

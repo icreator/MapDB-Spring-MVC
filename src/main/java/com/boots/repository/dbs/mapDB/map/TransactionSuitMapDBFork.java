@@ -1,7 +1,10 @@
 package com.boots.repository.dbs.mapDB.map;
 
+import com.boots.entity.Transaction;
+import com.boots.repository.dbs.DBASet;
 import com.boots.repository.dbs.IteratorCloseable;
 import com.boots.repository.dbs.mapDB.DBMapSuitFork;
+import com.boots.repository.dbs.serializer.TransactionSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.erachain.core.transaction.Transaction;
 import org.erachain.database.DBASet;
@@ -17,7 +20,7 @@ import java.util.Iterator;
 public class TransactionSuitMapDBFork extends DBMapSuitFork<Long, Transaction> implements TransactionSuit {
 
     public TransactionSuitMapDBFork(TransactionMap parent, DBASet databaseSet) {
-        super(parent, databaseSet, logger);
+        super(parent, databaseSet);
     }
 
     @Override
@@ -28,7 +31,7 @@ public class TransactionSuitMapDBFork extends DBMapSuitFork<Long, Transaction> i
         // OPEN MAP
         map = database.createHashMap("transactions")
                 .keySerializer(SerializerBase.LONG)
-                .valueSerializer(new TransactionUncSerializer())
+                .valueSerializer(new TransactionSerializer())
                 .counterEnable() // разрешаем счет размера - это будет немного тормозить работу
                 .makeOrGet();
 

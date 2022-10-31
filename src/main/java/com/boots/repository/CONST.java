@@ -34,6 +34,10 @@ public class CONST {
         return noGui;
     }
 
+    public String getDataChainPath() {
+        return "/";
+    }
+
     public void stopAndExit(int par) {
 
         // PREVENT MULTIPLE CALLS
